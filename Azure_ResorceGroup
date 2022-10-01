@@ -1,0 +1,36 @@
+#!/bin/bash
+echo "Script is executing now"
+#######################################
+# Auther name : suresh kumar chavvakula
+# Date        : 10-09-2020
+# Version     : V1.0
+# Name        : Createing  "Azure Resource group" "Azure Vnets" "Subnets" "NSG & Rules" "AvaibleSet"
+########################################
+echo "CREATING AZURE RESOURCE GROUP"
+
+	az group create -l eastus -n AZUREB8
+
+echo "CREATING AZURE VIRTUAL NETWORK"
+
+   	az network vnet create -g AZUREB8 -n AZUREB8 -n AZUREB8-vNET1 --address-prefix 10.1.0.0/16 --subnet-name AZUREB8-subnet-1 --subnet-prefix 10.1.1.0/24 -l eastus
+
+echo "CREATING AZURE SUBNETS"
+
+
+ 	az network vnet subnet create -g AZUREB8 --vnet-name AZUREB8-vNET1 -n AZUREB8-subnet-2 --address-prefix 10.1.2.0/24
+ 
+ 	az network vnet subnet create -g AZUREB8 --vnet-name AZUREB8-vNET1 -n AZUREB8-subnet-3 --address-prefix 10.1.3.0/24
+
+
+
+echo "Creating AZURE NSG and Rule"
+    
+ az network nsg create -g AZUREB8 -n AZUREB8_NSG1
+ az network nsg rule create -g AZUREB8 --nsg-name AZUREB8_NSG1 -n AZUREB8_NSG1_RULE1 --priority 100 \
+--source-address-prefixes '*' --source-port-ranges '*' --destination-address-prefixes '*' \
+--destination-port-ranges '*' --access Allow --protocol Tcp --description "Allowing All Traffic For Now"
+
+
+echo "Creating AZURe Availibility Set"
+
+az vm availability-set create --name EAST-AVSET1 -g AZUREB8 --location eastus --platform-fault-domain-count 3 --platform-update-domain-count 5
