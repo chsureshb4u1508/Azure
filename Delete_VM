@@ -1,0 +1,7 @@
+#!/bin/bash
+#This script will delete the Vm
+#Author Name : Suresh Kumar Chavvakula
+#Date        : 10-03-2020
+#Versuion    : V1.0
+#################################################################
+az group delete -n AZUREB8  --yes
